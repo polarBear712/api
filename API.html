@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>API.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="font-colorf00apifont"><font color=#f00><strong>API</strong></font></h1>
+<h2 id="font-colorf00%E8%A8%BB%E5%86%8Afont"><font color=#f00><strong>註冊</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/register</code></p>
+<h3 id="method">method</h3>
+<p><code>post</code></p>
+<h3 id="request-body">request body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">username</span>:<span class="hljs-string">'uj030333'</span>,
+  <span class="hljs-attr">password</span>:<span class="hljs-string">'qwe123'</span>
+}
+</div></code></pre>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E7%99%BB%E5%85%A5font"><font color=#f00><strong>登入</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/login</code></p>
+<h3 id="method">method</h3>
+<p><code>post</code></p>
+<h3 id="request-body">request body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">username</span>:<span class="hljs-string">'uj030333'</span>,
+  <span class="hljs-attr">password</span>:<span class="hljs-string">'qwe123'</span>
+}
+</div></code></pre>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E7%8D%B2%E5%8F%96%E7%94%A8%E6%88%B6%E4%BF%A1%E6%81%AFfont"><font color=#f00><strong>獲取用戶信息</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/info</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">username</span>: <span class="hljs-string">'uj030333'</span>
+  },
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E5%89%B5%E5%BB%BA%E6%94%B6%E8%B2%A8%E5%9C%B0%E5%9D%80font"><font color=#f00><strong>創建收貨地址</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/address</code></p>
+<h3 id="method">method</h3>
+<p><code>post</code></p>
+<h3 id="request-body">request body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+  <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>
+  <span class="hljs-attr">address</span>: <span class="hljs-string">'台北市大同區'</span>
+}
+</div></code></pre>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">_id</span>: <span class="hljs-string">'收貨地址的 id'</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+    <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>,
+    <span class="hljs-attr">address</span>: <span class="hljs-string">'台北市大同區'</span>
+    <span class="hljs-attr">createdAt</span>: <span class="hljs-built_in">Date</span>,
+    <span class="hljs-attr">updatedAt</span>: <span class="hljs-built_in">Date</span>
+
+  },
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E7%8D%B2%E5%8F%96%E6%94%B6%E8%B2%A8%E5%9C%B0%E5%9D%80%E5%88%97%E8%A1%A8font"><font color=#f00><strong>獲取收貨地址列表</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/address</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: [
+    {
+      <span class="hljs-attr">_id</span>: <span class="hljs-string">'收貨地址的 id'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+      <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>,
+      <span class="hljs-attr">address</span>: <span class="hljs-string">'台北市大同區'</span>
+    },
+    {
+      <span class="hljs-attr">_id</span>: <span class="hljs-string">'收貨地址的 id'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+      <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>,
+      <span class="hljs-attr">address</span>: <span class="hljs-string">'高雄市前鎮區'</span>
+    }
+  ],
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E7%8D%B2%E5%8F%96%E5%96%AE%E5%80%8B%E6%94%B6%E8%B2%A8%E5%9C%B0%E5%9D%80font"><font color=#f00><strong>獲取單個收貨地址</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/address/:id</code> (<code>:id</code> 是一個動態參數, 服務端可獲取具體的參數值)</p>
+<p>示例: <code>/api/user/address/100</code> <code>/api/user/address/101</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: {
+      <span class="hljs-attr">_id</span>: <span class="hljs-string">'收貨地址的 id'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+      <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>,
+      <span class="hljs-attr">address</span>: <span class="hljs-string">'台北市大同區'</span>
+    }
+  },
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E6%9B%B4%E6%96%B0%E6%94%B6%E8%B2%A8%E5%9C%B0%E5%9D%80font"><font color=#f00><strong>更新收貨地址</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/user/address/:id</code></p>
+<h3 id="method">method</h3>
+<p><code>patch</code> (Restful API 規範, 更新數據)</p>
+<h3 id="request-body">request body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'Benson'</span>,
+  <span class="hljs-attr">phone</span>: <span class="hljs-string">'09xxxxxxxx'</span>,
+  <span class="hljs-attr">address</span>: <span class="hljs-string">'台北市大同區'</span>
+}
+</div></code></pre>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E9%99%84%E8%BF%91-%E7%86%B1%E9%96%80-%E5%95%86%E5%BA%97font"><font color=#f00><strong>附近 (熱門) 商店</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/shop/hot-list</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: [
+    {
+      <span class="hljs-attr">_id</span>: <span class="hljs-string">'商店 id'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'沃爾瑪'</span>,
+      <span class="hljs-attr">imgUrl</span>: <span class="hljs-string">'商店的圖片 url'</span>,
+      <span class="hljs-attr">sales</span>: <span class="hljs-number">1000</span>, <span class="hljs-comment">// 月售</span>
+      <span class="hljs-attr">expressLimit</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 起送價格</span>
+      <span class="hljs-attr">expressPrice</span>: <span class="hljs-number">5</span>, <span class="hljs-comment">// 快遞價格</span>
+      <span class="hljs-attr">slogan</span>: <span class="hljs-string">'VIP 尊享滿 89 元減 4 元運費卷'</span>
+    }
+  ],
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E5%95%86%E5%BA%97%E8%A9%B3%E6%83%85font"><font color=#f00><strong>商店詳情</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/shop/:id</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">_id</span>: <span class="hljs-string">'商店 id'</span>,
+    <span class="hljs-attr">name</span>: <span class="hljs-string">'好市多'</span>,
+    <span class="hljs-attr">imgUrl</span>: <span class="hljs-string">'商店的圖片 url'</span>,
+    <span class="hljs-attr">sales</span>: <span class="hljs-number">1000</span>, <span class="hljs-comment">// 月售</span>
+    <span class="hljs-attr">expressLimit</span>: <span class="hljs-number">100</span>, <span class="hljs-comment">// 起送價格</span>
+    <span class="hljs-attr">expressPrice</span>: <span class="hljs-number">30</span>, <span class="hljs-comment">// 運費</span>
+    <span class="hljs-attr">slogan</span>: <span class="hljs-string">'滿500免運'</span>
+  },
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E6%9F%A5%E8%A9%A2-%E6%9F%90%E5%80%8B-%E5%95%86%E5%BA%97%E7%9A%84%E5%95%86%E5%93%81%E5%88%97%E8%A1%A8font"><font color=#f00><strong>查詢 (某個) 商店的商品列表</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/shop/:id/products</code></p>
+<h3 id="query">query</h3>
+<p><code>tab = 全部商品</code></p>
+<p>舉例 <code>/api/shop/101/products?tab=seckill</code></p>
+<h3 id="method">method</h3>
+<p><code>get</code></p>
+<h3 id="request-body">request body</h3>
+<p>無</p>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: [
+    {
+      <span class="hljs-attr">_id</span>: <span class="hljs-string">'商品 id'</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">'番茄 250g/份'</span>,
+      <span class="hljs-attr">imgUrl</span>: <span class="hljs-string">'xxx.png'</span>,
+      <span class="hljs-attr">sales</span>: <span class="hljs-number">10</span>,
+      <span class="hljs-attr">price</span>: <span class="hljs-number">33</span>,
+      <span class="hljs-attr">oldPrice</span>: <span class="hljs-number">40</span>
+    }
+  ],
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+<h2 id="font-colorf00%E5%89%B5%E5%BB%BA%E8%A8%82%E5%96%AEfont"><font color=#f00><strong>創建訂單</strong></font></h2>
+<h3 id="url">url</h3>
+<p><code>/api/order</code></p>
+<h3 id="method">method</h3>
+<p><code>post</code></p>
+<h3 id="request-body">request body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">addressId</span>: <span class="hljs-string">'收貨地址的 id'</span>,
+  <span class="hljs-attr">shopId</span>: <span class="hljs-string">'商店的 id'</span>,
+  <span class="hljs-attr">shopName</span>: <span class="hljs-string">'商店名稱'</span>,
+  <span class="hljs-attr">isCanceled</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 訂單是否被取消</span>
+  <span class="hljs-attr">products</span>: [
+    {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">'商品 id'</span>,
+      <span class="hljs-attr">num</span>: <span class="hljs-number">3</span> <span class="hljs-comment">// 購買數量</span>
+    },
+    {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">'商品 id'</span>,
+      <span class="hljs-attr">num</span>: <span class="hljs-number">5</span> <span class="hljs-comment">// 購買數量</span>
+    }
+  ]
+}
+</div></code></pre>
+<h3 id="response-body">response body</h3>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">errno</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">_id</span>: <span class="hljs-string">'訂單 id'</span>
+  },
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'errno !== 0 的話, 的錯誤信息'</span>
+}
+</div></code></pre>
+
+</body>
+</html>
